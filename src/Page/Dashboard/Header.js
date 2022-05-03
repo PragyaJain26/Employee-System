@@ -1,8 +1,18 @@
 import React from 'react'
 
-function Header() {
+function Header(props) {
+    const { setisAdding } = props //destructuring
     return (
-        <div>Header</div>
+        <>
+            <header>
+                <h2>Employee Management System</h2>
+                <div>
+                    <button className='round-button' onClick={() => {
+                        setisAdding(true)
+                    }}>Add Employee</button>
+                </div>
+            </header>
+        </>
     )
 }
 
