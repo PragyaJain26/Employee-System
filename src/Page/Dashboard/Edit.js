@@ -1,19 +1,54 @@
 import React, { useState } from 'react'
+import Swal from 'sweetalert2'
 
 function Edit(props) {
     const { setisEditing, selectedEmployee, setEmployees, employees } = props
-
-    const [firstName, setFirstName] = useState(selectedEmployee)
-    const [lastName, setLastName] = useState(selectedEmployee)
-    const [email, setEmail] = useState(selectedEmployee)
-    const [salary, setSalary] = useState(selectedEmployee)
-    const [date, setDate] = useState(selectedEmployee)
+    const [firstName, setFirstName] = useState(selectedEmployee.firstName)
+    const [lastName, setLastName] = useState(selectedEmployee.lastName)
+    const [email, setEmail] = useState(selectedEmployee.email)
+    const [salary, setSalary] = useState(selectedEmployee.salary)
+    const [date, setDate] = useState(selectedEmployee.date)
 
     const id = selectedEmployee.id
 
     const handleUpdate = (e) => {
         e.preventDefault()//jab bhi submit karte toh page reload hota to stop that we add this
 
+        //validation
+        if (!firstName || !lastName || !salary || !email || !date) {
+            return Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "All fields must be filled up",
+                showconfirmButton: true
+            })
+        }
+        //editing 
+        const employee = {
+            id,
+            firstName,
+            lastName,
+            email,
+            salary,
+            date
+        }
+        for (let i = 0; i < employees.length; i++) {
+            if (employees[i].id === id) {
+                employees.splice(i, 1, employee)
+                break
+
+            }
+        }
+
+        setEmployees(employees)
+        setisEditing(false)
+        Swal.fire({
+            icon: 'success',
+            title: 'Updated!',
+            text: `${employee.firstName}'s data has been updated.`,
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
 
     return (

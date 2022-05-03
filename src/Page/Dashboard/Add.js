@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Swal from 'sweetalert2'
 
 function Add(props) {
 
     const { setisAdding, employees, setEmployees } = props
 
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [salary, setSalary] = useState('')
     const [date, setDate] = useState('')
+
+    const textInput = useRef(null)
+
+    useEffect(() => {
+        textInput.current.focus()
+    }, [])
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -40,6 +47,13 @@ function Add(props) {
         employees.push(newEmployee)
         setEmployees(employees)
         setisAdding(false)
+        Swal.fire({
+            icon: 'success',
+            title: 'Updated!',
+            text: `${newEmployee.firstName}'s data has been Added.`,
+            showConfirmButton: false,
+            timer: 2000
+        });
 
 
     }
@@ -51,7 +65,7 @@ function Add(props) {
                 {/* first name */}
 
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id='firstName' value={firstName} onChange={(e) => { setFirstName(e.target.value) }} />
+                <input type="text" id='firstName' ref={textInput} value={firstName} onChange={(e) => { setFirstName(e.target.value) }} />
 
                 {/* last name */}
                 <label htmlFor="lastName">Last Name</label>

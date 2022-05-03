@@ -1,8 +1,14 @@
 import React from 'react'
 
+
 function List(props) {
 
     const { handleDelete, handleEdit, employees } = props
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: null
+    });
     return (
         <div className='contain-table'>
             <table className='striped-table'>
@@ -27,7 +33,7 @@ function List(props) {
                                 <td>{employee.firstName}</td>
                                 <td>{employee.lastName}</td>
                                 <td>{employee.email}</td>
-                                <td>{employee.salary}</td>
+                                <td>{formatter.format(employee.salary)}</td>
                                 <td>{employee.date}</td>
                                 <td className='text-right'><button className='button muted-button' onClick={() => { handleEdit(employee.id) }}>Edit</button></td>
                                 <td className='text-left'><button className='button muted-button' onClick={() => { handleDelete(employee.id) }}>Delete</button></td>
